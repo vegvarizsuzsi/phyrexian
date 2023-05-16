@@ -2,6 +2,11 @@ package com.codecool.dungeoncrawl.logic;
 
 import com.codecool.dungeoncrawl.data.Cell;
 import com.codecool.dungeoncrawl.data.GameMap;
+import com.codecool.dungeoncrawl.data.actors.Actor;
+import com.codecool.dungeoncrawl.data.actors.Player;
+import com.codecool.dungeoncrawl.data.items.Item;
+
+import java.util.List;
 
 public class GameLogic {
     private GameMap map;
@@ -27,6 +32,14 @@ public class GameLogic {
 
     public String getPlayerHealth() {
         return Integer.toString(map.getPlayer().getHealth());
+    }
+
+    public List<Item> getPlayerInventory(){
+        Actor player = map.getPlayer();
+        if(player instanceof Player)
+            return ((Player) player).getInventory();
+        return null;
+
     }
 
 
