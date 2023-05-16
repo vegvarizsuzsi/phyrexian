@@ -37,8 +37,7 @@ public abstract class Actor implements Drawable {
     }
 
     public void pickUpItem(Item item) {
-        // Implement the logic to handle picking up the item
-        // For example, you can modify the player's state or inventory based on the item
+        health += 10;
     }
 
     public int getHealth() {
