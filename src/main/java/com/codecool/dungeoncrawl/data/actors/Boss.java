@@ -10,6 +10,8 @@ import java.util.Random;
 
 public class Boss  extends Actor implements Movement {
     private int movementDirection = 1;
+    private int health = 15;
+    private int damage = 2;
 
     public Boss(Cell cell) {
         super(cell);
@@ -18,6 +20,19 @@ public class Boss  extends Actor implements Movement {
     public String getTileName() {
         return "boss";
     }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
     public void move(int dx, int dy){
 
     }
@@ -35,10 +50,14 @@ public class Boss  extends Actor implements Movement {
         // Randomly select a neighboring cell
         Random random = new Random();
         Cell nextCell = neighboringCells.get(random.nextInt(neighboringCells.size()));
+        if (health == 0) {
+            return;
+        } else {
+            cell.setActor(null);
+            nextCell.setActor(this);
+            cell = nextCell;
+        }
 
-        cell.setActor(null);
-        nextCell.setActor(this);
-        cell = nextCell;
     }
 
     private List<Cell> getNeighboringCells() {
@@ -61,5 +80,8 @@ public class Boss  extends Actor implements Movement {
 
     private boolean isValidCell(Cell cell) {
         return cell != null && cell.getType() != CellType.WALL && (cell.getActor() == null && cell.getType() != CellType.CLOSED_DOOR || cell.getActor() == this) ;
+    }
+
+    public void decreaseHealth(int playerDamage) {
     }
 }
