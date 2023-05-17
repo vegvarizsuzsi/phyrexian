@@ -33,6 +33,18 @@ public class Player extends Actor implements Movement {
             // The next cell is a wall, the player cannot move there
             return;
         }
+        if (nextCell.getType() == CellType.CLOSED_DOOR) {
+            // The next cell is a closed door, check if the player has a key
+            if (!hasKeyInInventory()) {
+                // The player does not have a key, cannot pass through the closed door
+                return;
+            } else {
+                // Remove the key from the player's inventory
+                removeKeyFromInventory();
+                // Change the closed door to an open door
+                nextCell.setType(CellType.FLOOR);
+            }
+        }
 
         if (nextCell.getActor() != null) {
             // The next cell is an actor, the player cannot move there
@@ -44,6 +56,8 @@ public class Player extends Actor implements Movement {
             nextCell.setItem(null);
         }
 
+
+
         cell.setActor(null);
         nextCell.setActor(this);
         cell = nextCell;
@@ -53,6 +67,27 @@ public class Player extends Actor implements Movement {
         inventory.add(item);
         health += 10;
     }
+
+    private boolean hasKeyInInventory() {
+        // Check if the player has a key in their inventory
+        for (Item item : inventory) {
+            if (item.getTileName().equals("key")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void removeKeyFromInventory() {
+        // Remove a key from the player's inventory
+        for (Item item : inventory) {
+            if (item.getTileName().equals("key")) {
+                inventory.remove(item);
+                break; // Stop iterating once a key is removed
+            }
+        }
+    }
+
 
     public List<Item> getInventory() {
         return inventory;
