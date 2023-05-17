@@ -60,6 +60,6 @@ public class Boss  extends Actor implements Movement {
     }
 
     private boolean isValidCell(Cell cell) {
-        return cell != null && cell.getType() != CellType.WALL && (cell.getActor() == null || cell.getActor() == this);
+        return cell != null && cell.getType() != CellType.WALL && (cell.getActor() == null && cell.getType() != CellType.CLOSED_DOOR || cell.getActor() == this) ;
     }
 }
