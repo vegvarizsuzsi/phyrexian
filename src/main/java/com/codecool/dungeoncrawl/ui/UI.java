@@ -65,11 +65,13 @@ public class UI {
     }
 
     private void onKeyPressed(KeyEvent keyEvent) {
-
-        for (KeyHandler keyHandler : keyHandlers) {
-            keyHandler.perform(keyEvent, logic.getMap());
+        if (!logic.isGameOver()) {
+            for (KeyHandler keyHandler : keyHandlers) {
+                keyHandler.perform(keyEvent, logic.getMap());
+            }
+            logic.checkGameOverConditions();
+            refresh();
         }
-        refresh();
     }
 
 
@@ -87,10 +89,20 @@ public class UI {
                     Tiles.drawTile(context, cell, x, y);
                 }
             }
+            if (logic.isGameOver()) {
+                showGameOverAlert();
+            }
         }
         mainStage.setHealthLabelText(logic.getPlayerHealth());
         mainStage.setinventoryLabelText(logic.getPlayerInventory());
 
+    }
+    private  void showGameOverAlert(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Game Over");
+        alert.setHeaderText("Game Over");
+        alert.setContentText("You have lost the game.");
+        alert.showAndWait();
     }
 
 }

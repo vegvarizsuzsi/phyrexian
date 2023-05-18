@@ -39,6 +39,7 @@ public class Player extends Actor implements Movement {
 
     @Override
     public void move(int dx, int dy) {
+        GameLogic gameLogic = new GameLogic();
         Cell nextCell = cell.getNeighbor(dx, dy);
 
         if (Arrays.asList("developer1", "developer2").contains(name)) {
@@ -80,6 +81,9 @@ public class Player extends Actor implements Movement {
             pickUpItem(item);
             nextCell.setItem(null);
         }
+        if(nextCell.getActor() instanceof Queen){
+            gameLogic.setGameOver();
+        }
 
 
         cell.setActor(null);
@@ -92,6 +96,7 @@ public class Player extends Actor implements Movement {
         inventory.add(item);
         health += 10;
     }
+
 
     private boolean hasKeyInInventory() {
         for (Item item : inventory) {
