@@ -11,9 +11,26 @@ import java.util.List;
 public class GameLogic {
     private GameMap map;
     private Player player;
+    private boolean gameOver;
 
     public GameLogic() {
         this.map = MapLoader.loadMap();
+        this.gameOver = false;
+
+    }
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public void setGameOver() {
+        gameOver = true;
+    }
+
+    public void checkGameOverConditions() {
+        if (map.getPlayer().getHealth() <= 0) {
+            setGameOver();
+        }
+
     }
 
     public double getMapWidth() {
