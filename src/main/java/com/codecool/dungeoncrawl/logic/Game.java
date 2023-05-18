@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl.logic;
 
+import com.codecool.dungeoncrawl.data.actors.Player;
 import com.codecool.dungeoncrawl.ui.UI;
 import com.codecool.dungeoncrawl.ui.keyeventhandler.*;
 import javafx.application.Application;
@@ -12,6 +13,8 @@ public class Game extends Application {
     private GameLogic logic;
     private Set<KeyHandler> keyHandlers;
 
+    private Player player;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -20,10 +23,12 @@ public class Game extends Application {
     public void start(Stage primaryStage) throws Exception {
         this.keyHandlers = Set.of(new Up(), new Down(), new Left(), new Right());
         this.logic = new GameLogic();
-        this.ui = new UI(logic, keyHandlers);
-        ui.setUpPain(primaryStage);
+        this.ui = new UI(logic, keyHandlers,player);
+        ui.setUpPane(primaryStage);
 
         primaryStage.setTitle("Dungeon Crawl");
         primaryStage.show();
     }
+
+
 }

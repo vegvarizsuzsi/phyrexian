@@ -28,6 +28,10 @@ public class MainStage {
     public Scene getScene() {
         return scene;
     }
+    public Canvas getCanvas() {
+        return canvas;
+    }
+
 
     public void setHealthLabelText(String text) {
         this.statusPane.setHealthValue(text);

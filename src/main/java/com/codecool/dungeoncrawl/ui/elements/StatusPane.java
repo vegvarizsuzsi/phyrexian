@@ -3,6 +3,8 @@ package com.codecool.dungeoncrawl.ui.elements;
 import com.codecool.dungeoncrawl.data.items.Item;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
@@ -16,6 +18,8 @@ public class StatusPane {
     private Label healthValueLabel;
     private Label inventoryTextLabel;
     private Label inventoryValueLabel;
+    private Label nameLabel;
+    private TextField nameTextField;
 
     public StatusPane() {
         ui = new GridPane();
@@ -23,6 +27,13 @@ public class StatusPane {
         healthValueLabel = new Label();
         inventoryTextLabel = new Label("Inventory: ");
         inventoryValueLabel = new Label();
+        nameLabel = new Label("Name: ");
+        nameTextField = new TextField();
+        nameTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                nameTextField.getParent().requestFocus();
+            }
+        });
     }
 
     public BorderPane build() {
@@ -34,10 +45,15 @@ public class StatusPane {
         ui.add(healthValueLabel, 1, 0);
         ui.add(inventoryTextLabel, 0, 1);
         ui.add(inventoryValueLabel, 1, 1);
+        ui.add(nameLabel, 0, 2);
+        ui.add(nameTextField, 1, 2);
 
         BorderPane borderPane = new BorderPane();
         borderPane.setRight(ui);
+
         return borderPane;
+
+
     }
 
     public void setHealthValue(String text) {
@@ -50,5 +66,9 @@ public class StatusPane {
             inventoryText.append(item.getTileName()).append(",");
         }
         inventoryValueLabel.setText(inventoryText.toString());
+    }
+
+    public String getPlayerName() {
+        return nameTextField.getText();
     }
 }
