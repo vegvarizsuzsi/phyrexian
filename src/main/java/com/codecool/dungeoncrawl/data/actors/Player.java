@@ -21,11 +21,12 @@ public class Player extends Actor implements Movement {
 
     private List<Item> inventory;
 
-    public Player(Cell cell){
+    public Player(Cell cell) {
         super(cell);
         this.inventory = new ArrayList<>();
 
     }
+
     public Player(Cell cell, String name) {
         super(cell);
         this.inventory = new ArrayList<>();
@@ -40,20 +41,14 @@ public class Player extends Actor implements Movement {
     public void move(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
 
-
-        if ((Arrays.asList("developer1", "developer2").contains("developer1")) || (Arrays.asList("developer1", "developer2").contains("developer2"))){
-                if (nextCell.getType() == CellType.WALL) {
+        if (Arrays.asList("developer1", "developer2").contains(name)) {
+            if (nextCell.getType() == CellType.WALL) {
                 nextCell.setType(CellType.DEVWALL);
+
             }
 
-//            if (Arrays.asList("developer1", "developer2").contains(getName())) {
-//                if (nextCell.getType() == CellType.WALL) {
-//                    nextCell.setType(CellType.DEVWALL);
-//
-//                }
-
         } else {
-            if (nextCell.getType() == CellType.WALL) {                
+            if (nextCell.getType() == CellType.WALL) {
                 return;
             }
 
@@ -72,11 +67,10 @@ public class Player extends Actor implements Movement {
             if (nextCell.getActor() instanceof Boss) {
                 Boss boss = (Boss) nextCell.getActor();
                 attack(boss);
-            }else if (nextCell.getActor() instanceof Skeleton) {
+            } else if (nextCell.getActor() instanceof Skeleton) {
                 Skeleton skeleton = (Skeleton) nextCell.getActor();
                 attack(skeleton);
-            }
-            else {
+            } else {
                 return;
             }
 
@@ -121,6 +115,7 @@ public class Player extends Actor implements Movement {
     public List<Item> getInventory() {
         return inventory;
     }
+
     private void attack(Actor actor) {
         int playerDamage = calculatePlayerDamage();
         if (actor instanceof Boss) {
@@ -181,7 +176,6 @@ public class Player extends Actor implements Movement {
     public void setHealth(int health) {
         this.health = health;
     }
-
 
 
     public void setName(String name) {

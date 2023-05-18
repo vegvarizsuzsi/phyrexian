@@ -1,7 +1,9 @@
 package com.codecool.dungeoncrawl.ui.elements;
 
+import com.codecool.dungeoncrawl.data.actors.Player;
 import com.codecool.dungeoncrawl.data.items.Item;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -29,11 +31,25 @@ public class StatusPane {
         inventoryValueLabel = new Label();
         nameLabel = new Label("Name: ");
         nameTextField = new TextField();
+
+    }
+
+    public void addPlayerName(Player player) {
         nameTextField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
+                player.setName(nameTextField.getText());
                 nameTextField.getParent().requestFocus();
+                event.consume();
             }
         });
+    }
+
+    private void showNameErrorAlert() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Invalid Name");
+        alert.setHeaderText("Invalid Name");
+        alert.setContentText("Please enter a valid name.");
+        alert.showAndWait();
     }
 
     public BorderPane build() {

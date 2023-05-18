@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl.ui.elements;
 
+import com.codecool.dungeoncrawl.data.actors.Player;
 import com.codecool.dungeoncrawl.data.items.Item;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -39,5 +40,9 @@ public class MainStage {
 
     public void setinventoryLabelText(List<Item> playerInventory) {
         this.statusPane.setInventoryValue(playerInventory);
+    }
+
+    public void setPlayerName(Player player) {
+        statusPane.addPlayerName(player);
     }
 }

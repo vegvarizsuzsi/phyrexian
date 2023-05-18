@@ -26,11 +26,8 @@ public class UI {
     private Set<KeyHandler> keyHandlers;
     private TextField nameTextField;
 
-    private Player player;
 
-
-
-    public UI(GameLogic logic, Set<KeyHandler> keyHandlers, Player player) {
+    public UI(GameLogic logic, Set<KeyHandler> keyHandlers) {
         this.canvas = new Canvas(
                 logic.getMapWidth() * Tiles.TILE_WIDTH,
                 logic.getMapHeight() * Tiles.TILE_WIDTH);
@@ -39,7 +36,7 @@ public class UI {
         this.mainStage = new MainStage(canvas);
         this.keyHandlers = keyHandlers;
         this.nameTextField = new TextField();
-        this.player = player;
+
 
         this.nameTextField.setOnAction(event -> {
             String playerName = nameTextField.getText().trim();
@@ -49,74 +46,31 @@ public class UI {
 
                 logic.setup();
                 refresh();
-            } else {
-                showNameErrorAlert();
+
             }
             event.consume();
         });
-
     }
-
-//    public void setUpPane(Stage primaryStage) {
-//        Scene scene = mainStage.getScene();
-//        primaryStage.setScene(scene);
-//        logic.setup();
-//        refresh();
-//        scene.setOnKeyPressed(this::onKeyPressed);
-//        primaryStage.show();
-//
-//        Platform.runLater(() -> nameTextField.requestFocus());
-//    }
 
     public void setUpPane(Stage primaryStage) {
         Scene scene = mainStage.getScene();
         primaryStage.setScene(scene);
         Platform.runLater(() -> nameTextField.requestFocus());
 
-        this.nameTextField.setOnAction(event -> {
-            String playerName = nameTextField.getText().trim();
-            if (!playerName.isEmpty()) {
-                player.setName(playerName);
-                mainStage.getCanvas().requestFocus();
-
-                logic.setup();
-                refresh();
-            } else {
-                showNameErrorAlert();
-            }
-            event.consume();
-        });
-
-        nameTextField.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                mainStage.getCanvas().requestFocus();
-            }
-        });
-
         logic.setup();
+        mainStage.setPlayerName(logic.getPlayer());
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
         primaryStage.show();
     }
 
-
-
     private void onKeyPressed(KeyEvent keyEvent) {
-        boolean nameTextFieldFocused = nameTextField.isFocused();
 
-        if (nameTextFieldFocused && keyEvent.getCode() == KeyCode.ENTER) {
-            nameTextField.getParent().requestFocus();
-            return;
+        for (KeyHandler keyHandler : keyHandlers) {
+            keyHandler.perform(keyEvent, logic.getMap());
         }
-
-        if (!nameTextFieldFocused) {
-            for (KeyHandler keyHandler : keyHandlers) {
-                keyHandler.perform(keyEvent, logic.getMap());
-            }
-            refresh();
-        }
+        refresh();
     }
-
 
 
     public void refresh() {
@@ -138,11 +92,5 @@ public class UI {
         mainStage.setinventoryLabelText(logic.getPlayerInventory());
 
     }
-    private void showNameErrorAlert() {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Invalid Name");
-        alert.setHeaderText("Invalid Name");
-        alert.setContentText("Please enter a valid name.");
-        alert.showAndWait();
-    }
+
 }

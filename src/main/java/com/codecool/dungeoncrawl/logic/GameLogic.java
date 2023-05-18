@@ -16,11 +16,6 @@ public class GameLogic {
         this.map = MapLoader.loadMap();
     }
 
-    public GameLogic(GameMap map, Player player) {
-        this.map = MapLoader.loadMap();
-        this.player = player;
-    }
-
     public double getMapWidth() {
         return map.getWidth();
     }
@@ -28,8 +23,6 @@ public class GameLogic {
     public double getMapHeight() {
         return map.getHeight();
     }
-
-
 
 
     public void setup() {
@@ -43,24 +36,20 @@ public class GameLogic {
         return Integer.toString(map.getPlayer().getHealth());
     }
 
-    public List<Item> getPlayerInventory(){
+    public List<Item> getPlayerInventory() {
         Actor player = map.getPlayer();
-        if(player instanceof Player)
+        if (player instanceof Player)
             return ((Player) player).getInventory();
         return null;
 
     }
-
 
     public GameMap getMap() {
         return map;
     }
 
     public Player getPlayer() {
-        return player;
+        return map.getPlayer();
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
 }

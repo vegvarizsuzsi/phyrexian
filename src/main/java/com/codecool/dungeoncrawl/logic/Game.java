@@ -13,7 +13,7 @@ public class Game extends Application {
     private GameLogic logic;
     private Set<KeyHandler> keyHandlers;
 
-    private Player player;
+
 
     public static void main(String[] args) {
         launch(args);
@@ -23,7 +23,7 @@ public class Game extends Application {
     public void start(Stage primaryStage) throws Exception {
         this.keyHandlers = Set.of(new Up(), new Down(), new Left(), new Right());
         this.logic = new GameLogic();
-        this.ui = new UI(logic, keyHandlers,player);
+        this.ui = new UI(logic, keyHandlers);
         ui.setUpPane(primaryStage);
 
         primaryStage.setTitle("Dungeon Crawl");
