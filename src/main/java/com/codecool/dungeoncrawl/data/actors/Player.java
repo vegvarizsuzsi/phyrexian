@@ -44,7 +44,11 @@ public class Player extends Actor implements Movement {
             if (nextCell.getActor() instanceof Boss) {
                 Boss boss = (Boss) nextCell.getActor();
                 attack(boss);
-            } else {
+            }else if (nextCell.getActor() instanceof Skeleton) {
+                Skeleton skeleton = (Skeleton) nextCell.getActor();
+                attack(skeleton);
+            }
+            else {
                 return;
             }
 
@@ -89,20 +93,31 @@ public class Player extends Actor implements Movement {
     public List<Item> getInventory() {
         return inventory;
     }
-    private void attack(Boss boss) {
+    private void attack(Actor actor) {
         int playerDamage = calculatePlayerDamage();
-        int monsterDamage = 5;
+        if (actor instanceof Boss) {
+            Boss boss = (Boss) actor;
 
-        boss.decreaseHealth(playerDamage);
-        decreaseHealth(monsterDamage);
+            int bossDamage = boss.getDamage();
 
-        if (boss.getHealth() <= 0) {
-            boss.setHealth(0);
-            cell.setActor(null);
-        }
+            boss.decreaseHealth(playerDamage);
+            decreaseHealth(bossDamage);
 
-        if (getHealth() <= 0) {
+            if (boss.getHealth() <= 0) {
+                boss.setHealth(0);
+                cell.setActor(null);
+            }
+        } else if (actor instanceof Skeleton) {
+            Skeleton skeleton = (Skeleton) actor;
+            int skeletonDamage = skeleton.getDamage();
 
+            skeleton.decreaseHealth(playerDamage);
+            decreaseHealth(skeletonDamage);
+
+            if (skeleton.getHealth() <= 0) {
+                skeleton.setHealth(0);
+                cell.setActor(null);
+            }
         }
     }
 
