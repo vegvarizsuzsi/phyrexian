@@ -4,19 +4,32 @@ import com.codecool.dungeoncrawl.data.Cell;
 import com.codecool.dungeoncrawl.data.CellType;
 import com.codecool.dungeoncrawl.data.Movement;
 import com.codecool.dungeoncrawl.data.items.Item;
+import com.codecool.dungeoncrawl.logic.Game;
+import com.codecool.dungeoncrawl.logic.GameLogic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Player extends Actor implements Movement {
 
     private int health = 10;
+
+    private String name;
+
     private int damage = 5;
+
     private List<Item> inventory;
 
-    public Player(Cell cell) {
+    public Player(Cell cell){
         super(cell);
         this.inventory = new ArrayList<>();
+
+    }
+    public Player(Cell cell, String name) {
+        super(cell);
+        this.inventory = new ArrayList<>();
+        this.name = name;
     }
 
     public String getTileName() {
@@ -25,10 +38,25 @@ public class Player extends Actor implements Movement {
 
     @Override
     public void move(int dx, int dy) {
-
         Cell nextCell = cell.getNeighbor(dx, dy);
-        if (nextCell.getType() == CellType.WALL) {
-            return;
+
+
+        if ((Arrays.asList("developer1", "developer2").contains("developer1")) || (Arrays.asList("developer1", "developer2").contains("developer2"))){
+                if (nextCell.getType() == CellType.WALL) {
+                nextCell.setType(CellType.DEVWALL);
+            }
+
+//            if (Arrays.asList("developer1", "developer2").contains(getName())) {
+//                if (nextCell.getType() == CellType.WALL) {
+//                    nextCell.setType(CellType.DEVWALL);
+//
+//                }
+
+        } else {
+            if (nextCell.getType() == CellType.WALL) {                
+                return;
+            }
+
         }
         if (nextCell.getType() == CellType.CLOSED_DOOR) {
             if (!hasKeyInInventory()) {
@@ -145,9 +173,18 @@ public class Player extends Actor implements Movement {
         return health;
     }
 
+
+    public String getName() {
+        return name;
+    }
+
     public void setHealth(int health) {
         this.health = health;
     }
 
 
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

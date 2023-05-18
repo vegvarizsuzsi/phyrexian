@@ -10,9 +10,15 @@ import java.util.List;
 
 public class GameLogic {
     private GameMap map;
+    private Player player;
 
     public GameLogic() {
         this.map = MapLoader.loadMap();
+    }
+
+    public GameLogic(GameMap map, Player player) {
+        this.map = MapLoader.loadMap();
+        this.player = player;
     }
 
     public double getMapWidth() {
@@ -22,6 +28,9 @@ public class GameLogic {
     public double getMapHeight() {
         return map.getHeight();
     }
+
+
+
 
     public void setup() {
     }
@@ -45,5 +54,13 @@ public class GameLogic {
 
     public GameMap getMap() {
         return map;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }

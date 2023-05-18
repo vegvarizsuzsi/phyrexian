@@ -77,10 +77,13 @@ public class Boss extends Actor implements Movement {
     }
 
     private boolean isValidCell(Cell cell) {
-        return cell != null && cell.getType() != CellType.WALL && (cell.getActor() == null && cell.getType() != CellType.CLOSED_DOOR || cell.getActor() == this);
+
+        return cell != null && cell.getType() != CellType.WALL && (cell.getActor() == null && cell.getType() != CellType.CLOSED_DOOR && cell.getType() != CellType.DEVWALL|| cell.getActor() == this) ;
+
     }
 
     public void decreaseHealth(int playerDamage) {
         health -= playerDamage;
+
     }
 }
