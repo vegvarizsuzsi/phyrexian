@@ -3,8 +3,8 @@ package com.codecool.dungeoncrawl.data.actors;
 import com.codecool.dungeoncrawl.data.Cell;
 import com.codecool.dungeoncrawl.data.CellType;
 import com.codecool.dungeoncrawl.data.Movement;
+import com.codecool.dungeoncrawl.data.items.Heart;
 import com.codecool.dungeoncrawl.data.items.Item;
-import com.codecool.dungeoncrawl.logic.Game;
 import com.codecool.dungeoncrawl.logic.GameLogic;
 
 import java.util.ArrayList;
@@ -47,7 +47,6 @@ public class Player extends Actor implements Movement {
                 nextCell.setType(CellType.DEVWALL);
 
             }
-
         } else {
             if (nextCell.getType() == CellType.WALL) {
                 return;
@@ -71,19 +70,23 @@ public class Player extends Actor implements Movement {
             } else if (nextCell.getActor() instanceof Skeleton) {
                 Skeleton skeleton = (Skeleton) nextCell.getActor();
                 attack(skeleton);
+            } else if (nextCell.getActor() instanceof Queen) {
+                Queen queen = (Queen) nextCell.getActor();
+                cell.setItem(new Heart(cell));
+                cell.setActor(null);
+                gameLogic.setGameOver();
             } else {
                 return;
             }
-
         }
+
+
         if (nextCell.getItem() != null) {
             Item item = nextCell.getItem();
             pickUpItem(item);
             nextCell.setItem(null);
         }
-        if(nextCell.getActor() instanceof Queen){
-            gameLogic.setGameOver();
-        }
+
 
 
         cell.setActor(null);
