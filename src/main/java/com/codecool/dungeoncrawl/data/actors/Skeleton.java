@@ -15,17 +15,17 @@ public class Skeleton extends Actor {
     }
 
     public void moveHorizontally() {
-        int nextDx = movementDirection; // Move horizontally based on the current direction
+        int nextDx = movementDirection;
 
-        Cell nextCell = cell.getNeighbor(nextDx, 0); // Use dy = 0 to move horizontally
+        Cell nextCell = cell.getNeighbor(nextDx, 0);
         if (nextCell.getType() == CellType.WALL) {
-            // The next cell is a wall, reverse the movement direction
+
             movementDirection *= -1;
             return;
         }
 
         if (nextCell.getActor() != null && nextCell.getActor() != this) {
-            // The next cell contains an actor that is not the boss, reverse the movement direction
+
             movementDirection *= -1;
             return;
         }

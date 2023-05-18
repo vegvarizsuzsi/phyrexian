@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Boss  extends Actor implements Movement {
+public class Boss extends Actor implements Movement {
     private int movementDirection = 1;
-    private int health = 15;
+    private int health = 11;
     private int damage = 2;
 
     public Boss(Cell cell) {
@@ -33,37 +33,35 @@ public class Boss  extends Actor implements Movement {
         return damage;
     }
 
-    public void move(int dx, int dy){
-
+    public void move(int dx, int dy) {
+        // Boss movement logic (if any)
     }
 
     public void moveHorizontally() {
         List<Cell> neighboringCells = getNeighboringCells();
 
         if (neighboringCells.isEmpty()) {
-            // No neighboring cells available, return
             return;
         }
-        if(cell.getType() == CellType.CLOSED_DOOR)
+        if (cell.getType() == CellType.CLOSED_DOOR) {
             return;
+        }
 
-        // Randomly select a neighboring cell
         Random random = new Random();
         Cell nextCell = neighboringCells.get(random.nextInt(neighboringCells.size()));
-        if (health == 0) {
-            return;
-        } else {
+        if (health <= 0) {
             cell.setActor(null);
-            nextCell.setActor(this);
-            cell = nextCell;
+            return;
         }
 
+        cell.setActor(null);
+        nextCell.setActor(this);
+        cell = nextCell;
     }
 
     private List<Cell> getNeighboringCells() {
         List<Cell> neighboringCells = new ArrayList<>();
 
-        // Iterate over all neighboring cells
         for (int dx = -1; dx <= 1; dx++) {
             for (int dy = -1; dy <= 1; dy++) {
                 if (dx != 0 || dy != 0) {
@@ -79,9 +77,10 @@ public class Boss  extends Actor implements Movement {
     }
 
     private boolean isValidCell(Cell cell) {
-        return cell != null && cell.getType() != CellType.WALL && (cell.getActor() == null && cell.getType() != CellType.CLOSED_DOOR || cell.getActor() == this) ;
+        return cell != null && cell.getType() != CellType.WALL && (cell.getActor() == null && cell.getType() != CellType.CLOSED_DOOR || cell.getActor() == this);
     }
 
     public void decreaseHealth(int playerDamage) {
+        health -= playerDamage;
     }
 }
